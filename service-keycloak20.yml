@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak20
+  labels:
+    app: keycloak20
+spec:
+  ports:
+  - name: https
+    port: 8443
+    targetPort: http
+  selector:
+    app: keycloak20
+  type: ClusterIP

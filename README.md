@@ -1,1 +1,1 @@
-# keycloak repo for keycloak on Kubernetes
+# Keycloak Demo project for POC on kubernetes

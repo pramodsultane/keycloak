@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak20-config
+  labels:
+    app: keycloak20
+data:
+  JGROUPS_DISCOVERY_PROTOCOL: JDBC_PING
+  JGROUPS_DISCOVERY_PROPERTIES: datasource_jndi_name=java:jboss/datasources/KeycloakDS
+  PROXY_ADDRESS_FORWARDING: "true"
+  KC_LOG_LEVEL: INFO,org.infinispan:DEBUG,org.jgroups:DEBUG
+  KC_DB: postgres
+  KC_DB_URL: jdbc:postgresql://aaa.postgres.database.azure.com:5432/keycloak
+  KC_DB_URL_DATABASE: keycloak
+  KC_DB_USERNAME: abc@aaa
+  KC_DB_URL_PORT: "5432"

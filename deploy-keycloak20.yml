@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak20
+  labels:
+    app: keycloak20
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak20
+  template:
+    metadata:
+      labels:
+        app: keycloak20
+        use-by-keycloak20: "true"
+    spec:
+      containers:
+      - name: keycloak20
+        image: iamge
+        imagePullPolicy: Always
+        args: ["start"]
+        env:
+        - name: JGROUPS_DISCOVERY_EXTERNAL_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"
+        - name: KC_HOSTNAME
+          value: "hostname.com"
+        - name: KC_HTTP_RELATIVE_PATH
+          value: "/auth"
+        - name: KC_CACHE
+          value: "ispn"
+        - name: KC_CACHE_CONFIG_FILE
+          value: "cache-ispn-jdbc-ping.xml"
+        - name: KC_PROXY
+          value: "edge"
+        - name: KC_HEALTH_ENABLED
+          value: "true"
+        - name: KC_METRICS_ENABLED
+          value: "true"
+        - name: KC_LOG_LEVEL
+          value: "INFO,org.infinispan:DEBUG,org.jgroups:DEBUG"
+        - name: KC_DB
+          value: "postgres"
+        - name: KC_DB_URL_DATABASE
+          value: "keycloak"
+        - name: KC_DB_USERNAME
+          value: "keycloak"
+        - name: KC_DB_PASSWORD
+          value: "Password"
+        - name: KC_DB_URL
+          value: "jdbc:postgresql:<url>"
+        - name: KC_DB_URL_PORT
+          value: "5432"
+        - name: JDBC_PARAMS
+          value: sslmode=require
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: JAVA_OPTS
+          containerPort: 8080
+        - name: https
+          containerPort: 8443
+        readinessProbe:
+          httpGet:
+            path: auth/realms/master
+            port: http
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1.5Gi
+          requests:
+            cpu: 400m
+            memory: 1Gi

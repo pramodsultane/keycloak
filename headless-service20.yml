@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak20-jgroups-ping
+  labels:
+    app: keycloak20
+spec:
+  selector:
+    app: keycloak20
+  clusterIP: None
+  ports:
+    - port: 4444
+      name: ping
+      protocol: TCP
+      targetPort: 4444
+  publishNotReadyAddresses: true

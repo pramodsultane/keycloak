@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak20
+  annotations:
+    kubernetes.io/ingress.class: "private"
+spec:
+  tls:
+    - hosts:
+      - hostname.com
+      secretName: keycloak-certificate20
+  rules:
+  - host: hostname.com
+    http:
+      paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: keycloak20
+                port:
+                  name: https
+
