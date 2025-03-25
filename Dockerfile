@@ -1,16 +1,20 @@
 FROM quay.io/keycloak/keycloak:20.0.3 as builder
-ENV KC_HEALTH_ENABLED=true
-ENV KC_METRICS_ENABLED=true
+
+# Set Keycloak admin credentials
 ENV KC_DB=postgres
 ENV KC_HTTP_RELATIVE_PATH=/auth
-ENV KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
+ENV KC_HOSTNAME=localhost
+ENV KC_HOSTNAME_PORT=8080
+ENV KC_ADMIN_USERNAME=admin
+ENV KC_ADMIN_PASSWORD=admin
 
-# add custom infinity cache configuration (if clustered)
-COPY config/cache-ispn-jdbc-ping.xml /opt/keycloak/conf/cache-ispn-jdbc-ping.xml
-
-# Install custom providers , Add features and build image , Show Keycloak config
-RUN <url> --features=impersonation,admin2,account2,admin-fine-grained-authz --cache-config-file=cache-ispn-jdbc-ping.xml &&\
-/opt/keycloak/bin/kc.sh show-config
+# Set environment variables for PostgreSQL connection
+ENV KC_DB=postgres
+ENV KC_DB_HOST=localhost
+ENV KC_DB_PORT=5432
+ENV KC_DB_URL="jdbc:postgresql://localhost:5432/keycloak"
+ENV KC_DB_USERNAME=keycloak
+ENV KC_DB_PASSWORD=password
 
 FROM quay.io/keycloak/keycloak:20.0.3
 
@@ -24,5 +28,8 @@ COPY themes /opt/keycloak/themes/
 USER root
 RUN chown -R 100:100 /opt/keycloak
 USER 100
+
+# Expose the Keycloak port
+EXPOSE 8080
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]

@@ -30,21 +30,11 @@ spec:
         - name: KEYCLOAK_ADMIN_PASSWORD
           value: "admin"
         - name: KC_HOSTNAME
-          value: "hostname.com"
+          value: "localhost"
         - name: KC_HTTP_RELATIVE_PATH
           value: "/auth"
-        - name: KC_CACHE
-          value: "ispn"
-        - name: KC_CACHE_CONFIG_FILE
-          value: "cache-ispn-jdbc-ping.xml"
         - name: KC_PROXY
           value: "edge"
-        - name: KC_HEALTH_ENABLED
-          value: "true"
-        - name: KC_METRICS_ENABLED
-          value: "true"
-        - name: KC_LOG_LEVEL
-          value: "INFO,org.infinispan:DEBUG,org.jgroups:DEBUG"
         - name: KC_DB
           value: "postgres"
         - name: KC_DB_URL_DATABASE
@@ -54,11 +44,9 @@ spec:
         - name: KC_DB_PASSWORD
           value: "Password"
         - name: KC_DB_URL
-          value: "jdbc:postgresql:<url>"
+          value: "jdbc:postgresql://postgres:5432/keycloak"
         - name: KC_DB_URL_PORT
           value: "5432"
-        - name: JDBC_PARAMS
-          value: sslmode=require
         - name: NAMESPACE
           valueFrom:
             fieldRef:
